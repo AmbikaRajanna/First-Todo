@@ -1,17 +1,121 @@
 <!DOCTYPE html>
-<html lang="">
-  <head>
-    <meta charset="utf-8">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- <link rel="stylesheet" href="" -->
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+   
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"> -->
+   
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+    <title>Todoapp</title>
+</head>
+<body>
+ <div id="app">
+     <div class="container">
+         <h1>Todo List</h1>
+
+         <!-- <div v-if="errors.lenght > 0">
+            <ul>
+                <li v-for="item in error" style="color: red">{{item}}</li>
+            </ul>
+        </div>
+         -->
+       <!-- // <form @submit.prevent="checkform"> -->
+           
+        
+         <div v-if="!isEditing">
+            <input type="text" v-model="todo">
+            <input type="submit" value="add"@click= "storeTodo"> 
+           <!-- <input type="submit" value="add"@click= "checkform"> -->
+           
+            </div>
+
+            <div v-else>
+                <input type="text" v-model="todo">
+                <input type="submit" value="update"@click= "updateTodo">
+            </div>
+        
+            <ol>
+             <li v-for="(todo, index) in todos">
+
+                 {{ todo }}
+
+                 <button @click="editTodo(index,todo)">Edit</button>
+                 <button @click="deleteTodo(index,todo)">Delete</button>
+                </li>
+         </ol>
+        <!-- </form> -->
+     </div>
+ </div>  
+ <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            isEditing:false,
+            todo: '',
+            todos:[],
+            selectedTodo: null
+                  
+        },
+        methods: {
+            storeTodo()
+            {   
+              //  validate(this.todo)
+              if(!this.todo)
+                
+                     alert("value required")
+                   
+                    else
+                    {
+                    this.todos.push(this.todo)
+                    this.todo=''
+                    }
+            },
+            editTodo(index,todo)
+            {
+                //this.todos.push(this.todo)
+                this.todo = todo
+                this.isEditing = true
+                this.selectedIndex = index
+                //this.todo = todo
+               
+               
+            },
+            deleteTodo(index)
+            {
+                this.todos.splice(index,1)
+                //this.todo=''
+            },
+            updateTodo()
+            {
+                if(!this.todo)
+                
+                     alert("value required")
+                   
+                    else
+                    {
+
+                this.todos.splice(this.selectedIndex,1,this.todo)
+               // validate(this.todo)
+                this.todo=''
+                this.isEditing = false
+                    }
+            }
+            // validate(todo)
+            // {
+            //     if(this.todo===null)
+            //     console.log("empty task not allowed");
+
+            // }
+        
+                              
+        }
+    })
+</script>
+
+</body>
 </html>
